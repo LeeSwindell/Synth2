@@ -26,6 +26,7 @@ public:
     
     juce::dsp::ProcessorChain<juce::dsp::Oscillator<float>, juce::dsp::Oscillator<float>, juce::dsp::Gain<float>> processChain;
     // set default gain/oscillators somewhere??
+    //This is the process chain for ONE oscillator, put the whole chain of oscillators and filters in SynthVoice!!
     
     void setFrequency(float newValue, bool force=false);
     void setLevel(float newValue);

@@ -15,27 +15,37 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
     return dynamic_cast<SynthVoice*>(sound) != nullptr;
 }
 
-void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition)
+void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition)
 {
     
 }
 
-void stopNote(float velocity, bool allowTailOff)
+void SynthVoice::stopNote(float velocity, bool allowTailOff)
 {
     
 }
 
-void pitchWheelMoved(int newPitchWheelValue)
+void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 {
     
 }
 
-void controllerMoved(int controllerNumber, int newControllerValue)
+void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 {
     
 }
 
-void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
+void SynthVoice::renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
+    
+}
+
+void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numOutputChannels)
+{
+    juce::dsp::ProcessSpec spec;
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = numOutputChannels;
+    
     
 }

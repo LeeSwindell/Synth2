@@ -44,5 +44,5 @@ void CustomOsc::reset() noexcept
 template<typename ProcessContext>
 void CustomOsc::process(const ProcessContext& context)
 {
-    
+    processChain.process(context);
 }
