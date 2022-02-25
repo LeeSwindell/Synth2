@@ -41,16 +41,25 @@ void SynthVoice::stopNote(float velocity, bool allowTailOff)
 
 void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 {
-    
+    //fill in later
 }
 
 void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 {
-    
+    //fill in later
 }
 
-void SynthVoice::renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
+void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
 {
+    auto block = tempBlock.getSubBlock(0, (size_t) numSamples);
+    block.clear();
+    
+    juce::dsp::ProcessContextReplacing<float> context (block);
+    voiceProcessChain.process(context);
+    
+    juce::dsp::AudioBlock<float>(outputBuffer)
+        .getSubBlock((size_t) startSample, (size_t) numSamples)
+        .add(tempBlock);
     
 }
 

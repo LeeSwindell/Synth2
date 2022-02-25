@@ -19,7 +19,7 @@ public:
     
     enum
     {
-        osc1Index,
+        oscIndex,
         gainIndex
     };
     
@@ -33,8 +33,7 @@ public:
     void reset() noexcept;
     
     template<typename ProcessContext>
-    void process(const ProcessContext& context);
+    void oscProcess(const ProcessContext& context) noexcept;
 
 private:
-    
 };

@@ -12,14 +12,15 @@
 
 CustomOsc::CustomOsc()
 {
-    auto& osc1 = oscProcessChain.template get<osc1Index>();
-    osc1.initialise( [] (float x) { return std::sin(x); }, 128);
+    auto& osc = oscProcessChain.template get<oscIndex>();
+    osc.initialise( [] (float x) { return std::sin(x); }, 128);
+    //Need to add the ability to use different wavetypes
 }
 
 void CustomOsc::setFrequency(float newValue, bool force)
 {
-    auto& osc1 = oscProcessChain.template get<osc1Index>();
-    osc1.setFrequency(newValue);
+    auto& osc = oscProcessChain.template get<oscIndex>();
+    osc.setFrequency(newValue);
 }
 
 void CustomOsc::setLevel(float newValue)
@@ -38,8 +39,8 @@ void CustomOsc::reset() noexcept
     oscProcessChain.reset();
 }
 
-template<typename ProcessContext>
-void CustomOsc::process(const ProcessContext& context)
+template <typename ProcessContext>
+void CustomOsc::oscProcess(const ProcessContext& context) noexcept
 {
     oscProcessChain.process(context);
 }
