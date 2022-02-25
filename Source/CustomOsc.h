@@ -20,11 +20,10 @@ public:
     enum
     {
         osc1Index,
-        osc2Index,
-        masterGainIndex
+        gainIndex
     };
     
-    juce::dsp::ProcessorChain<juce::dsp::Oscillator<float>, juce::dsp::Oscillator<float>, juce::dsp::Gain<float>> processChain;
+    juce::dsp::ProcessorChain<juce::dsp::Oscillator<float>, juce::dsp::Gain<float>> oscProcessChain;
     // set default gain/oscillators somewhere??
     //This is the process chain for ONE oscillator, put the whole chain of oscillators and filters in SynthVoice!!
     
@@ -32,6 +31,7 @@ public:
     void setLevel(float newValue);
     void prepare(const juce::dsp::ProcessSpec& spec);
     void reset() noexcept;
+    
     template<typename ProcessContext>
     void process(const ProcessContext& context);
 

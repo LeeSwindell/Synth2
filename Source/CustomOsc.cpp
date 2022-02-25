@@ -12,37 +12,34 @@
 
 CustomOsc::CustomOsc()
 {
-    auto& osc1 = processChain.template get<osc1Index>();
-    auto& osc2 = processChain.template get<osc2Index>();
-//    auto& masterGain = processChain.template get<masterGainIndex>();
-    
+    auto& osc1 = oscProcessChain.template get<osc1Index>();
     osc1.initialise( [] (float x) { return std::sin(x); }, 128);
-    osc2.initialise( [] (float x) { return std::sin(x); }, 128);
 }
 
 void CustomOsc::setFrequency(float newValue, bool force)
 {
-    
+    auto& osc1 = oscProcessChain.template get<osc1Index>();
+    osc1.setFrequency(newValue);
 }
 
 void CustomOsc::setLevel(float newValue)
 {
-    auto& masterGain = processChain.template get<masterGainIndex>();
-    masterGain.setGainLinear(newValue);
+    auto& gain = oscProcessChain.template get<gainIndex>();
+    gain.setGainLinear(newValue);
 }
 
 void CustomOsc::prepare(const juce::dsp::ProcessSpec& spec)
 {
-    processChain.prepare(spec);
+    oscProcessChain.prepare(spec);
 }
 
 void CustomOsc::reset() noexcept
 {
-    processChain.reset();
+    oscProcessChain.reset();
 }
 
 template<typename ProcessContext>
 void CustomOsc::process(const ProcessContext& context)
 {
-    processChain.process(context);
+    oscProcessChain.process(context);
 }
