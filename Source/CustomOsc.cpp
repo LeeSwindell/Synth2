@@ -13,8 +13,11 @@
 CustomOsc::CustomOsc()
 {
     auto& osc = oscProcessChain.template get<oscIndex>();
-    osc.initialise( [] (float x) { return std::sin(x); }, 128);
+    osc.initialise ([](float x) { return std::sin (x); }, 128);
     //Need to add the ability to use different wavetypes
+    
+    auto& gain = oscProcessChain.template get<gainIndex>();
+    gain.setGainLinear(0.5f);
 }
 
 void CustomOsc::setFrequency(float newValue, bool force)
@@ -39,8 +42,8 @@ void CustomOsc::reset() noexcept
     oscProcessChain.reset();
 }
 
-template <typename ProcessContext>
-void CustomOsc::oscProcess(const ProcessContext& context) noexcept
+//template <typename ProcessContext>  why didn't this template work?? figure it out sometime
+void CustomOsc::process(juce::dsp::ProcessContextReplacing<float>& context) noexcept
 {
     oscProcessChain.process(context);
 }
