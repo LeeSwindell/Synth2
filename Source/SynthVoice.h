@@ -30,8 +30,8 @@ public:
     void stopNote(float velocity, bool allowTailOff) override;
     void pitchWheelMoved(int newPitchWheelValue) override;
     void controllerMoved(int controllerNumber, int newControllerValue) override;
-    void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
     void prepareToPlay(const juce::dsp::ProcessSpec& spec);
+    void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
         
 private:
     juce::HeapBlock<char> heapBlock;

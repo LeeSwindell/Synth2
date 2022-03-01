@@ -28,6 +28,9 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     Synth2AudioProcessor& audioProcessor;
+    juce::MidiKeyboardState midiKeyboardState;
+    juce::MidiKeyboardComponent midiKeyboardComponent { midiKeyboardState, juce::MidiKeyboardComponent::horizontalKeyboard };
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Synth2AudioProcessorEditor)
 };

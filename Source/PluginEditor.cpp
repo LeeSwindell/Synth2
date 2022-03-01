@@ -16,10 +16,15 @@ Synth2AudioProcessorEditor::Synth2AudioProcessorEditor (Synth2AudioProcessor& p)
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
+    
+    addAndMakeVisible (midiKeyboardComponent);
+    midiKeyboardComponent.setMidiChannel (2);
+    midiKeyboardState.addListener (&audioProcessor.getMidiMessageCollector());
 }
 
 Synth2AudioProcessorEditor::~Synth2AudioProcessorEditor()
 {
+    midiKeyboardState.removeListener (&audioProcessor.getMidiMessageCollector());
 }
 
 //==============================================================================
@@ -30,11 +35,11 @@ void Synth2AudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+//    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void Synth2AudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    auto area = getLocalBounds();
+    midiKeyboardComponent.setBounds (area.removeFromTop (80).reduced (8));
 }

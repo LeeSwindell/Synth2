@@ -18,11 +18,13 @@ SynthVoice::SynthVoice()
 
 bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
 {
-    return dynamic_cast<SynthVoice*>(sound) != nullptr;
+    return dynamic_cast<SynthSound*>(sound) != nullptr;
 }
 
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition)
 {
+    DBG("started note!!");
+
     auto freq = (float) juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
     
     auto& osc1 = voiceProcessChain.template get<osc1Index>();
@@ -32,6 +34,7 @@ void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesiser
     auto& osc2 = voiceProcessChain.template get<osc2Index>();
     osc2.setFrequency(1.01f * freq);
     osc2.setLevel(velocity);
+    
 }
 
 void SynthVoice::stopNote(float velocity, bool allowTailOff)
@@ -49,8 +52,24 @@ void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
     //fill in later
 }
 
+void SynthVoice::prepareToPlay(const juce::dsp::ProcessSpec& spec)
+{
+    tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
+    
+    voiceProcessChain.prepare(spec);
+    
+    isPrepared = true;
+    
+    DBG("preparing synth voice");
+}
+
 void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
 {
+    jassert(isPrepared);
+    if (! isVoiceActive())
+        return;
+//    DBG("rendernextblock");
+    
     auto block = tempBlock.getSubBlock(0, (size_t) numSamples);
     block.clear();
     
@@ -60,14 +79,4 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     juce::dsp::AudioBlock<float>(outputBuffer)
         .getSubBlock((size_t) startSample, (size_t) numSamples)
         .add(tempBlock);
-    
-}
-
-void SynthVoice::prepareToPlay(const juce::dsp::ProcessSpec& spec)
-{
-    tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
-    
-    voiceProcessChain.prepare(spec);
-    
-    isPrepared = true;
 }
