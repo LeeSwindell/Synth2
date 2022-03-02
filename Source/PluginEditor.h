@@ -32,12 +32,11 @@ private:
     Synth2AudioProcessor& audioProcessor;
     juce::MidiKeyboardState midiKeyboardState;
     juce::MidiKeyboardComponent midiKeyboardComponent { midiKeyboardState, juce::MidiKeyboardComponent::horizontalKeyboard };
+    CustomLook lookAndFeel;
     
     juce::Slider attackSlider, decaySlider, sustainSlider, releaseSlider;
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
     std::unique_ptr<SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
     
-    CustomLook lookAndFeel;
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Synth2AudioProcessorEditor)
 };

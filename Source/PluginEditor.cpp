@@ -37,6 +37,7 @@ Synth2AudioProcessorEditor::Synth2AudioProcessorEditor (Synth2AudioProcessor& p)
 Synth2AudioProcessorEditor::~Synth2AudioProcessorEditor()
 {
     midiKeyboardState.removeListener (&audioProcessor.getMidiMessageCollector());
+    setLookAndFeel(nullptr);
 }
 
 //==============================================================================
