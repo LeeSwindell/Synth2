@@ -19,6 +19,6 @@ public:
     void drawRotarySlider(juce::Graphics&, int, int, int, int, float,
                           const float, const float, juce::Slider&) override;
 private:
-    float scale;
+    float scale { 1.0f };
     juce::Font getCommonMenuFont(float); //returns a default font
 };
