@@ -18,6 +18,8 @@
       <FILE id="KmuamK" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="VrDgOJ" name="CustomOsc.cpp" compile="1" resource="0" file="Source/CustomOsc.cpp"/>
       <FILE id="KCv6oE" name="CustomOsc.h" compile="0" resource="0" file="Source/CustomOsc.h"/>
+      <FILE id="Qc8uO0" name="CustomLook.cpp" compile="1" resource="0" file="Source/CustomLook.cpp"/>
+      <FILE id="lA41TN" name="CustomLook.h" compile="0" resource="0" file="Source/CustomLook.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

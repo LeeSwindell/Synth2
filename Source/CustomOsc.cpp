@@ -13,7 +13,7 @@
 CustomOsc::CustomOsc()
 {
     auto& osc = oscProcessChain.template get<oscIndex>();
-    osc.initialise ([](float x) { return std::sin (x); });
+    osc.initialise ([](float x) { return std::sin (x); }, 128);
     //Need to add the ability to use different wavetypes
 }
 

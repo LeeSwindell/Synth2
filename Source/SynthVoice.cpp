@@ -13,7 +13,7 @@
 SynthVoice::SynthVoice()
 {
     auto& masterGain = voiceProcessChain.template get<masterGainIndex>();
-    masterGain.setGainLinear(0.7f);
+    masterGain.setGainLinear(0.5f);
 }
 
 bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
