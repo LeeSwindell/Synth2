@@ -32,12 +32,17 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) override;
     void prepareToPlay(const juce::dsp::ProcessSpec& spec);
     void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
+    void updateADSR(const float attack, const float decay, const float sustain, const float release);
         
 private:
-    juce::HeapBlock<char> heapBlock;
-    juce::dsp::AudioBlock<float> tempBlock;
+//    juce::HeapBlock<char> heapBlock;
+//    juce::dsp::AudioBlock<float> tempBlock;
+    juce::AudioBuffer<float> synthBuffer;
     
     juce::dsp::ProcessorChain<CustomOsc, CustomOsc, juce::dsp::Gain<float>> voiceProcessChain;
+    
+    juce::ADSR adsr;
+    juce::ADSR::Parameters adsrParams;
     
     bool isPrepared { false };
 };

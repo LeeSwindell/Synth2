@@ -13,9 +13,8 @@
 CustomOsc::CustomOsc()
 {
     auto& osc = oscProcessChain.template get<oscIndex>();
-    osc.initialise ([](float x) { return std::sin (x); }, 128);
+    osc.initialise ([](float x) { return std::sin (x); });
     //Need to add the ability to use different wavetypes
-    DBG("initialised custom osc");
 }
 
 void CustomOsc::setFrequency(float newValue, bool force)

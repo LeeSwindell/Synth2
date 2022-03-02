@@ -23,8 +23,6 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
 
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition)
 {
-    DBG("started note!!");
-
     auto freq = (float) juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
     
     auto& osc1 = voiceProcessChain.template get<osc1Index>();
@@ -35,11 +33,15 @@ void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesiser
     osc2.setFrequency(1.01f * freq);
     osc2.setLevel(velocity);
     
+    adsr.noteOn();
 }
 
 void SynthVoice::stopNote(float velocity, bool allowTailOff)
 {
-    clearCurrentNote();
+    adsr.noteOff();
+    if (! allowTailOff || ! isVoiceActive())
+        clearCurrentNote();
+    
 }
 
 void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
@@ -54,13 +56,12 @@ void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 
 void SynthVoice::prepareToPlay(const juce::dsp::ProcessSpec& spec)
 {
-    tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
+//    tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
     
     voiceProcessChain.prepare(spec);
+    adsr.setSampleRate(spec.sampleRate);
     
     isPrepared = true;
-    
-    DBG("preparing synth voice");
 }
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
@@ -68,15 +69,38 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     jassert(isPrepared);
     if (! isVoiceActive())
         return;
-//    DBG("rendernextblock");
     
-    auto block = tempBlock.getSubBlock(0, (size_t) numSamples);
-    block.clear();
+//    auto block = tempBlock.getSubBlock(0, (size_t) numSamples);
+//    block.clear();
+    synthBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
+    synthBuffer.clear();
+    
+    juce::dsp::AudioBlock<float> block { synthBuffer };
     
     juce::dsp::ProcessContextReplacing<float> context (block);
     voiceProcessChain.process(context);
     
-    juce::dsp::AudioBlock<float>(outputBuffer)
-        .getSubBlock((size_t) startSample, (size_t) numSamples)
-        .add(tempBlock);
+    adsr.applyEnvelopeToBuffer(synthBuffer, 0, numSamples);
+    
+    for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
+    {
+        outputBuffer.addFrom(channel, startSample, synthBuffer, channel, 0, numSamples);
+        
+        if (! adsr.isActive())
+            clearCurrentNote();
+    }
+    
+//    juce::dsp::AudioBlock<float>(outputBuffer)
+//        .getSubBlock((size_t) startSample, (size_t) numSamples)
+//        .add(tempBlock);
+}
+
+void SynthVoice::updateADSR(const float attack, const float decay, const float sustain, const float release)
+{
+    adsrParams.attack = attack;
+    adsrParams.decay = decay;
+    adsrParams.sustain = sustain;
+    adsrParams.release = release;
+    
+    adsr.setParameters(adsrParams);
 }

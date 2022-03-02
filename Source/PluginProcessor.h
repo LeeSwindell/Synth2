@@ -57,11 +57,11 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     juce::MidiMessageCollector& getMidiMessageCollector() noexcept { return midiMessageCollector; }
-
-
+    juce::AudioProcessorValueTreeState apvts;
 private:
     juce::Synthesiser synth;
     juce::MidiMessageCollector midiMessageCollector;
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Synth2AudioProcessor)
