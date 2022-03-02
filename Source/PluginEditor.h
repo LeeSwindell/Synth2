@@ -24,7 +24,7 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-    void createADSRSliders(juce::Slider& slider);
+    void createADSRSliders(juce::Slider& slider, juce::Label& label, juce::String labelText);
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -35,6 +35,7 @@ private:
     CustomLook lookAndFeel;
     
     juce::Slider attackSlider, decaySlider, sustainSlider, releaseSlider;
+    juce::Label attackLabel, decayLabel, sustainLabel, releaseLabel;
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
     std::unique_ptr<SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
     

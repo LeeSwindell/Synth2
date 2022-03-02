@@ -24,10 +24,10 @@ Synth2AudioProcessorEditor::Synth2AudioProcessorEditor (Synth2AudioProcessor& p)
     sustainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "SUSTAIN", sustainSlider);
     releaseAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "RELEASE", releaseSlider);
     
-    createADSRSliders(attackSlider);
-    createADSRSliders(decaySlider);
-    createADSRSliders(sustainSlider);
-    createADSRSliders(releaseSlider);
+    createADSRSliders(attackSlider, attackLabel, "Att");
+    createADSRSliders(decaySlider, decayLabel, "Dec");
+    createADSRSliders(sustainSlider, sustainLabel, "Sus");
+    createADSRSliders(releaseSlider, releaseLabel, "Rel");
         
     addAndMakeVisible (midiKeyboardComponent);
     midiKeyboardComponent.setMidiChannel (2);
@@ -60,8 +60,11 @@ void Synth2AudioProcessorEditor::resized()
     releaseSlider.setBounds(340, 40, 60, 60);
 }
 
-void Synth2AudioProcessorEditor::createADSRSliders(juce::Slider& slider)
+void Synth2AudioProcessorEditor::createADSRSliders(juce::Slider& slider, juce::Label& label, juce::String labelText)
 {
+    label.setText(labelText, juce::dontSendNotification);
+    label.setJustificationType(juce::Justification::centred);
+    label.attachToComponent(&slider, false);
     slider.textFromValueFunction = nullptr;
     slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 15);
