@@ -10,14 +10,12 @@
 
 #include "CustomLook.h"
 
-//initialize the scale of the fonts sand the default slider color
 CustomLook::CustomLook()
 {
   scale = 1.f; //default scale
   setColour(juce::Slider::thumbColourId, juce::Colours::darkmagenta); //default slider color
 }
 
-//drawing each slider to have this kind of style, filled in with solid color and outlined with a dial
 void CustomLook::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos, const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider)
 {
     double radius = juce::jmin(width / 2, height / 2) - 4.0f;
