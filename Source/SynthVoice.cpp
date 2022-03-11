@@ -27,11 +27,15 @@ void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesiser
     
     auto& osc1 = voiceProcessChain.template get<osc1Index>();
     osc1.setFrequency(freq);
-    osc1.setLevel(velocity);
+    osc1.setLevel(velocity * gain1);
     
     auto& osc2 = voiceProcessChain.template get<osc2Index>();
     osc2.setFrequency(1.01f * freq);
-    osc2.setLevel(velocity);
+    osc2.setLevel(velocity * gain2);
+    
+    auto& osc3 = voiceProcessChain.template get<osc3Index>();
+    osc3.setFrequency(freq);
+    osc3.setLevel(velocity * gain3);
     
     adsr.noteOn();
 }
@@ -95,12 +99,26 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 //        .add(tempBlock);
 }
 
+void SynthVoice::updateWavetypes(const int osc1Wavetype, const int osc2Wavetype, const int osc3Wavetype)
+{
+    voiceProcessChain.template get<osc1Index>().setWavetype(osc1Wavetype);
+    voiceProcessChain.template get<osc2Index>().setWavetype(osc2Wavetype);
+    voiceProcessChain.template get<osc3Index>().setWavetype(osc3Wavetype);
+}
+
+void SynthVoice::updateGain(const float osc1Gain, const float osc2Gain, const float osc3Gain, const float masterGain)
+{
+    gain1 = osc1Gain;
+    gain2 = osc2Gain;
+    gain3 = osc3Gain;
+    voiceProcessChain.template get<masterGainIndex>().setGainLinear(masterGain);
+}
+
 void SynthVoice::updateADSR(const float attack, const float decay, const float sustain, const float release)
 {
     adsrParams.attack = attack;
     adsrParams.decay = decay;
     adsrParams.sustain = sustain;
     adsrParams.release = release;
-    
     adsr.setParameters(adsrParams);
 }

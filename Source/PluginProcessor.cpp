@@ -158,6 +158,13 @@ void Synth2AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             auto& sustain = *apvts.getRawParameterValue("SUSTAIN");
             auto& release = *apvts.getRawParameterValue("RELEASE");
             
+            voice->updateWavetypes(*apvts.getRawParameterValue("OSC1"),
+                                   *apvts.getRawParameterValue("OSC2"),
+                                   *apvts.getRawParameterValue("OSC3"));
+//            voice->updateGain(*apvts.getRawParameterValue("GAIN1"),
+//                              *apvts.getRawParameterValue("GAIN2"),
+//                              *apvts.getRawParameterValue("GAIN3"),
+//                              *apvts.getRawParameterValue("MASTERGAIN"));
             voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
         }
     }
@@ -213,7 +220,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout Synth2AudioProcessor::create
     layout.add(std::make_unique<juce::AudioParameterFloat>("GAIN1", "Osc 1 Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.5f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("GAIN2", "Osc 2 Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.5f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("GAIN3", "Osc 3 Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.0f));
-    layout.add(std::make_unique<juce::AudioParameterFloat>("MASTERGAIN", "Master Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.7f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>("MASTERGAIN", "Master Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.5f));
 
     // ADSR Params
     layout.add(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.1f, 1.0f }, 0.1f));

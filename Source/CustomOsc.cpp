@@ -12,16 +12,33 @@
 
 CustomOsc::CustomOsc()
 {
+}
+
+void CustomOsc::setWavetype(const int wavetype)
+{
     auto& osc = oscProcessChain.template get<oscIndex>();
-    osc.initialise ([](float x) { return std::sin (x); }, 128); //sin wave
-    //osc.initialise([](float x) { return x < 0.0f ? -1.0f : 1.0f; }); //square wave
-    /*osc.initialise([](float x) { return juce::jmap (x,
-     float (-juce::MathConstants<double>::pi),
-     float (juce::MathConstants<double>::pi),
-     float (-1),
-     float (1)); }, 2); Sawtooth wave*/
-    
-    //Need to add the ability to use different wavetypes
+    switch (wavetype)
+    {
+        case 0: //Sine Wave
+            osc.initialise ([](float x) { return std::sin (x); }, 128);
+            break;
+        
+        case 1: //Square Wave
+            osc.initialise([](float x) { return x < 0.0f ? -1.0f : 1.0f; });
+            break;
+            
+        case 2: //Sawtooth Wave
+            osc.initialise([](float x) { return juce::jmap (x,
+                                                            float (-juce::MathConstants<double>::pi),
+                                                            float (juce::MathConstants<double>::pi),
+                                                            float (-1),
+                                                            float (1)); }, 2);
+            break;
+            
+        default:
+            jassertfalse;
+            break;
+    }
 }
 
 void CustomOsc::setFrequency(float newValue, bool force)
@@ -32,8 +49,8 @@ void CustomOsc::setFrequency(float newValue, bool force)
 
 void CustomOsc::setLevel(float newValue)
 {
-    auto& gain = oscProcessChain.template get<gainIndex>();
-    gain.setGainLinear(newValue);
+    auto& osc = oscProcessChain.template get<gainIndex>();
+    osc.setGainLinear(newValue);
 }
 
 void CustomOsc::prepare(const juce::dsp::ProcessSpec& spec)
