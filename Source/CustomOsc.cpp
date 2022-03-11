@@ -13,7 +13,14 @@
 CustomOsc::CustomOsc()
 {
     auto& osc = oscProcessChain.template get<oscIndex>();
-    osc.initialise ([](float x) { return std::sin (x); }, 128);
+    osc.initialise ([](float x) { return std::sin (x); }, 128); //sin wave
+    //osc.initialise([](float x) { return x < 0.0f ? -1.0f : 1.0f; }); //square wave
+    /*osc.initialise([](float x) { return juce::jmap (x,
+     float (-juce::MathConstants<double>::pi),
+     float (juce::MathConstants<double>::pi),
+     float (-1),
+     float (1)); }, 2); Sawtooth wave*/
+    
     //Need to add the ability to use different wavetypes
 }
 
