@@ -21,23 +21,33 @@ Synth2AudioProcessorEditor::Synth2AudioProcessorEditor (Synth2AudioProcessor& p)
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
     using ComboAttachment = juce::AudioProcessorValueTreeState::ComboBoxAttachment;
     
-    // Osc Params
+    // Osc Wavetype Selectors
     osc1Attachment = std::make_unique<ComboAttachment>(audioProcessor.apvts, "OSC1", osc1Combo);
     osc2Attachment = std::make_unique<ComboAttachment>(audioProcessor.apvts, "OSC2", osc2Combo);
     osc3Attachment = std::make_unique<ComboAttachment>(audioProcessor.apvts, "OSC3", osc3Combo);
+    
+    createComboBox(osc1Combo, osc1Label, "Osc 1 Wavetype");
+    createComboBox(osc2Combo, osc2Label, "Osc 2 Wavetype");
+    createComboBox(osc3Combo, osc3Label, "Osc 3 Wavetype");
+    
+    // Osc Gain
     osc1GainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "GAIN1", osc1GainSlider);
     osc2GainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "GAIN2", osc2GainSlider);
     osc3GainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "GAIN3", osc3GainSlider);
     masterGainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "MASTERGAIN", masterGainSlider);
     
-    createComboBox(osc1Combo, osc1Label, "Osc 1 Wavetype");
-    createComboBox(osc2Combo, osc2Label, "Osc 2 Wavetype");
-    createComboBox(osc3Combo, osc3Label, "Osc 3 Wavetype");
     createSliders(osc1GainSlider, osc1GainLabel, "Gain1");
     createSliders(osc2GainSlider, osc2GainLabel, "Gain2");
     createSliders(osc3GainSlider, osc3GainLabel, "Gain3");
     createSliders(masterGainSlider, masterGainLabel, "Master");
     
+    // Osc Pitch
+    osc2PitchAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "OSC2PITCH", osc2PitchSlider);
+    osc3PitchAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "OSC3PITCH", osc3PitchSlider);
+    
+    createSliders(osc2PitchSlider, osc2PitchLabel, "Pitch2");
+    createSliders(osc3PitchSlider, osc3PitchLabel, "Pitch3");
+
     // ADSR Sliders
     attackAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "ATTACK", attackSlider);
     decayAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "DECAY", decaySlider);
@@ -50,9 +60,13 @@ Synth2AudioProcessorEditor::Synth2AudioProcessorEditor (Synth2AudioProcessor& p)
     createSliders(releaseSlider, releaseLabel, "Rel");
     
     // Low-Pass Filter
-    cutoffFreqAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "CUTOFF", cutoffFreqSlider);
+    cutoffFreqAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "CUTOFFFREQ", cutoffFreqSlider);
+    cutoffResonanceAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "CUTOFFRES", cutoffResonanceSlider);
+    
     createSliders(cutoffFreqSlider, cutoffFreqLabel, "Cutoff");
+    createSliders(cutoffResonanceSlider, cutoffResonanceLabel, "Resonanace");
         
+    //For the midi keyboard debugging
     addAndMakeVisible (midiKeyboardComponent);
     midiKeyboardComponent.setMidiChannel (2);
     midiKeyboardState.addListener (&audioProcessor.getMidiMessageCollector());
@@ -87,6 +101,8 @@ void Synth2AudioProcessorEditor::resized()
     osc2GainSlider.setBounds(200, 30, 60, 60);
     osc3GainSlider.setBounds(270, 30, 60, 60);
     masterGainSlider.setBounds(340, 30, 60, 60);
+    osc2PitchSlider.setBounds(130, 190, 60, 60);
+    osc3PitchSlider.setBounds(200, 190, 60, 60);
     
     // ADSR Sliders
     attackSlider.setBounds(130, 110, 60, 60);
@@ -96,6 +112,7 @@ void Synth2AudioProcessorEditor::resized()
     
     // Lowpass Filter
     cutoffFreqSlider.setBounds(410, 30, 60, 60);
+    cutoffResonanceSlider.setBounds(480, 30, 60, 60);
 }
 
 void Synth2AudioProcessorEditor::createSliders(juce::Slider& slider, juce::Label& label, juce::String labelText)
@@ -103,6 +120,7 @@ void Synth2AudioProcessorEditor::createSliders(juce::Slider& slider, juce::Label
     label.setText(labelText, juce::dontSendNotification);
     label.setJustificationType(juce::Justification::centred);
     label.attachToComponent(&slider, false);
+    label.setFont(12);
     slider.textFromValueFunction = nullptr;
     slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 15);

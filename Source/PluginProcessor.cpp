@@ -217,11 +217,17 @@ juce::AudioProcessorValueTreeState::ParameterLayout Synth2AudioProcessor::create
     layout.add(std::make_unique<juce::AudioParameterChoice> ("OSC2", "Osc 2 Wavetype", juce::StringArray { "Sine", "Square", "Saw" }, 0));
     layout.add(std::make_unique<juce::AudioParameterChoice> ("OSC3", "Osc 3 Wavetype", juce::StringArray { "Sine", "Square", "Saw" }, 0));
     
-    // Osc Gain Params
+    // Osc Gain
     layout.add(std::make_unique<juce::AudioParameterFloat>("GAIN1", "Osc 1 Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.5f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("GAIN2", "Osc 2 Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.5f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("GAIN3", "Osc 3 Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.0f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("MASTERGAIN", "Master Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.5f));
+    
+    // Osc Pitch
+    layout.add(std::make_unique<juce::AudioParameterFloat>("OSC2PITCH", "Osc 2 Pitch",
+                                                           juce::NormalisableRange<float> { -1.5f, 1.5f }, 0.0f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>("OSC3PITCH", "Osc 3 Pitch",
+                                                           juce::NormalisableRange<float> { -1.5f, 1.5f }, 0.0f));
 
     // ADSR Params
     layout.add(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.1f, 1.0f }, 0.1f));
@@ -230,8 +236,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout Synth2AudioProcessor::create
     layout.add(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float> { 0.1f, 3.0f }, 0.4f));
     
     // Lowpass Filter
-    layout.add(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Cutoff Frequency",
+    layout.add(std::make_unique<juce::AudioParameterFloat>("CUTOFFFREQ", "Cutoff Frequency",
                                                            juce::NormalisableRange<float> { 20.0f, 20000.0f }, 20000.0f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>("CUTOFFRES", "Cutoff Resonance",
+                                                           juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.0f));
     
     return layout;
 }

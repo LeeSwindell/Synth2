@@ -38,25 +38,30 @@ private:
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
     using ComboAttachment = juce::AudioProcessorValueTreeState::ComboBoxAttachment;
 
-    //Osc Selectors
+    // Osc Selectors
     juce::ComboBox osc1Combo, osc2Combo, osc3Combo;
     juce::Label osc1Label, osc2Label, osc3Label;
     std::unique_ptr<ComboAttachment> osc1Attachment, osc2Attachment, osc3Attachment;
     
-    //Gain Sliders
+    // Gain Sliders
     juce::Slider osc1GainSlider, osc2GainSlider, osc3GainSlider, masterGainSlider;
-    juce::Label osc1GainLabel, osc2GainLabel, osc3GainLabel, masterGainLabel; //I dont think these labels do anything atm. 
+    juce::Label osc1GainLabel, osc2GainLabel, osc3GainLabel, masterGainLabel;
     std::unique_ptr<SliderAttachment> osc1GainAttachment, osc2GainAttachment, osc3GainAttachment, masterGainAttachment;
     
-    //ADSR Params
+    // Osc Pitch Sliders
+    juce::Slider osc2PitchSlider, osc3PitchSlider;
+    juce::Label osc2PitchLabel, osc3PitchLabel;
+    std::unique_ptr<SliderAttachment> osc2PitchAttachment, osc3PitchAttachment;
+    
+    // ADSR Params
     juce::Slider attackSlider, decaySlider, sustainSlider, releaseSlider;
     juce::Label attackLabel, decayLabel, sustainLabel, releaseLabel;
     std::unique_ptr<SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
     
     // Cutoff Freq
-    juce::Slider cutoffFreqSlider;
-    juce::Label cutoffFreqLabel;
-    std::unique_ptr<SliderAttachment> cutoffFreqAttachment;
+    juce::Slider cutoffFreqSlider, cutoffResonanceSlider;
+    juce::Label cutoffFreqLabel, cutoffResonanceLabel;
+    std::unique_ptr<SliderAttachment> cutoffFreqAttachment, cutoffResonanceAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Synth2AudioProcessorEditor)
 };
