@@ -48,6 +48,10 @@ Synth2AudioProcessorEditor::Synth2AudioProcessorEditor (Synth2AudioProcessor& p)
     createSliders(decaySlider, decayLabel, "Dec");
     createSliders(sustainSlider, sustainLabel, "Sus");
     createSliders(releaseSlider, releaseLabel, "Rel");
+    
+    // Low-Pass Filter
+    cutoffFreqAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "CUTOFF", cutoffFreqSlider);
+    createSliders(cutoffFreqSlider, cutoffFreqLabel, "Cutoff");
         
     addAndMakeVisible (midiKeyboardComponent);
     midiKeyboardComponent.setMidiChannel (2);
@@ -89,6 +93,9 @@ void Synth2AudioProcessorEditor::resized()
     decaySlider.setBounds(200, 110, 60, 60);
     sustainSlider.setBounds(270, 110, 60, 60);
     releaseSlider.setBounds(340, 110, 60, 60);
+    
+    // Lowpass Filter
+    cutoffFreqSlider.setBounds(410, 30, 60, 60);
 }
 
 void Synth2AudioProcessorEditor::createSliders(juce::Slider& slider, juce::Label& label, juce::String labelText)

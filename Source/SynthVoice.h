@@ -47,7 +47,7 @@ private:
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
     
-    float gain1 { 0.5f }, gain2 { 0.5f }, gain3 { 0.0f };
+    float gain1, gain2, gain3;
     
     bool isPrepared { false };
 };

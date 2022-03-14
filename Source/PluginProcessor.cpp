@@ -161,11 +161,12 @@ void Synth2AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             voice->updateWavetypes(*apvts.getRawParameterValue("OSC1"),
                                    *apvts.getRawParameterValue("OSC2"),
                                    *apvts.getRawParameterValue("OSC3"));
-//            voice->updateGain(*apvts.getRawParameterValue("GAIN1"),
-//                              *apvts.getRawParameterValue("GAIN2"),
-//                              *apvts.getRawParameterValue("GAIN3"),
-//                              *apvts.getRawParameterValue("MASTERGAIN"));
+            voice->updateGain(*apvts.getRawParameterValue("GAIN1"),
+                              *apvts.getRawParameterValue("GAIN2"),
+                              *apvts.getRawParameterValue("GAIN3"),
+                              *apvts.getRawParameterValue("MASTERGAIN"));
             voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
+            
         }
     }
     
@@ -227,6 +228,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout Synth2AudioProcessor::create
     layout.add(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange<float> { 0.1f, 1.0f }, 0.1f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float> { 0.1f, 1.0f }, 1.0f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float> { 0.1f, 3.0f }, 0.4f));
+    
+    // Lowpass Filter
+    layout.add(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Cutoff Frequency",
+                                                           juce::NormalisableRange<float> { 20.0f, 20000.0f }, 20000.0f));
     
     return layout;
 }

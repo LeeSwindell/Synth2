@@ -53,5 +53,10 @@ private:
     juce::Label attackLabel, decayLabel, sustainLabel, releaseLabel;
     std::unique_ptr<SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
     
+    // Cutoff Freq
+    juce::Slider cutoffFreqSlider;
+    juce::Label cutoffFreqLabel;
+    std::unique_ptr<SliderAttachment> cutoffFreqAttachment;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Synth2AudioProcessorEditor)
 };
