@@ -17,8 +17,9 @@ class CustomOsc
 public:
     CustomOsc();
     void setWaveform(const int wavetype, const float gain);
-    void setFrequency(float newValue, bool force=false);
-    void setLevel(float newValue);
+    void setFrequency(float newFreq, bool force=false);
+    void setLevel(float newLevel);
+    void setPitch(float newPitch);
     void prepare(const juce::dsp::ProcessSpec& spec);
     void reset() noexcept;
     
@@ -31,6 +32,8 @@ private:
         oscIndex,
         gainIndex
     };
+    
+    float pitchAdjust { 1.0f };
     
     juce::dsp::ProcessorChain<juce::dsp::Oscillator<float>, juce::dsp::Gain<float>> oscProcessChain;
 };

@@ -34,10 +34,13 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) override;
     void prepareToPlay(const juce::dsp::ProcessSpec& spec);
     void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
+    
     void updateWaveforms(const int osc1Wavetype, const int osc2Wavetype, const int osc3Wavetype,
                          const float osc1Gain, const float osc2Gain, const float osc3Gain);
     void updateGain(const float masterGain);
     void updateADSR(const float attack, const float decay, const float sustain, const float release);
+    void updatePitch(const float pitch2, const float pitch3);
+    void updateLadderFilter(const float cutoffFreq, const float resonance, const float drive);
         
 private:
 //    juce::HeapBlock<char> heapBlock;

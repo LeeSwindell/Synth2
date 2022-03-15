@@ -12,8 +12,8 @@
 
 SynthVoice::SynthVoice()
 {
-//    auto& masterGain = voiceProcessChain.template get<masterGainIndex>();
-//    masterGain.setGainLinear(0.5f);
+    auto& ladderFilter = voiceProcessChain.template get<ladderFilterIndex>();
+    ladderFilter.setMode(juce::dsp::LadderFilterMode::LPF24); // initializes the ladder filter to a lowpass 24dB/oct
 }
 
 bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
@@ -30,7 +30,7 @@ void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesiser
     osc1.setLevel(velocity);
     
     auto& osc2 = voiceProcessChain.template get<osc2Index>();
-    osc2.setFrequency(1.01f * freq);
+    osc2.setFrequency(freq);
     osc2.setLevel(velocity);
     
     auto& osc3 = voiceProcessChain.template get<osc3Index>();
@@ -99,6 +99,9 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 //        .add(tempBlock);
 }
 
+//==============================================================================
+// This section updates the synth based on settings in plugin editor
+
 void SynthVoice::updateWaveforms(const int osc1Wavetype, const int osc2Wavetype, const int osc3Wavetype,
                                  const float osc1Gain, const float osc2Gain, const float osc3Gain)
 {
@@ -120,3 +123,19 @@ void SynthVoice::updateADSR(const float attack, const float decay, const float s
     adsrParams.release = release;
     adsr.setParameters(adsrParams);
 }
+
+void SynthVoice::updatePitch(const float pitch2, const float pitch3)
+{
+    voiceProcessChain.template get<osc2Index>().setPitch(pitch2);
+    voiceProcessChain.template get<osc3Index>().setPitch(pitch3);
+}
+
+void SynthVoice::updateLadderFilter(const float cutoffFreq, const float resonance, const float drive)
+{
+    auto& ladderFilter = voiceProcessChain.template get<ladderFilterIndex>();
+    ladderFilter.setCutoffFrequencyHz(cutoffFreq);
+    ladderFilter.setResonance(resonance);
+    ladderFilter.setDrive(drive);
+}
+
+//==============================================================================

@@ -43,16 +43,21 @@ void CustomOsc::setWaveform(const int wavetype, const float gain)
     }
 }
 
-void CustomOsc::setFrequency(float newValue, bool force)
+void CustomOsc::setFrequency(float newFreq, bool force)
 {
     auto& osc = oscProcessChain.template get<oscIndex>();
-    osc.setFrequency(newValue);
+    osc.setFrequency(pitchAdjust * newFreq);
 }
 
-void CustomOsc::setLevel(float newValue)
+void CustomOsc::setLevel(float newLevel)
 {
     auto& osc = oscProcessChain.template get<gainIndex>();
-    osc.setGainLinear(newValue);
+    osc.setGainLinear(newLevel);
+}
+
+void CustomOsc::setPitch(float newPitch)
+{
+    pitchAdjust = newPitch;
 }
 
 void CustomOsc::prepare(const juce::dsp::ProcessSpec& spec)
