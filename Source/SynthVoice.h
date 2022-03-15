@@ -22,6 +22,7 @@ public:
         osc1Index,
         osc2Index,
         osc3Index,
+        ladderFilterIndex,
         masterGainIndex
     };
     
@@ -33,8 +34,9 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) override;
     void prepareToPlay(const juce::dsp::ProcessSpec& spec);
     void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
-    void updateWavetypes(const int osc1Wavetype, const int osc2Wavetype, const int osc3Wavetype);
-    void updateGain(const float osc1Gain, const float osc2Gain, const float osc3Gain, const float masterGain);
+    void updateWaveforms(const int osc1Wavetype, const int osc2Wavetype, const int osc3Wavetype,
+                         const float osc1Gain, const float osc2Gain, const float osc3Gain);
+    void updateGain(const float masterGain);
     void updateADSR(const float attack, const float decay, const float sustain, const float release);
         
 private:
@@ -42,12 +44,12 @@ private:
 //    juce::dsp::AudioBlock<float> tempBlock;
     juce::AudioBuffer<float> synthBuffer;
     
-    juce::dsp::ProcessorChain<CustomOsc, CustomOsc, CustomOsc, juce::dsp::Gain<float>> voiceProcessChain;
+    juce::dsp::ProcessorChain<CustomOsc, CustomOsc, CustomOsc,
+                                juce::dsp::LadderFilter<float>,
+                                juce::dsp::Gain<float>> voiceProcessChain;
     
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
-    
-    float gain1, gain2, gain3;
     
     bool isPrepared { false };
 };

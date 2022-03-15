@@ -12,29 +12,29 @@
 
 CustomOsc::CustomOsc()
 {
-    auto& osc = oscProcessChain.template get<oscIndex>();
-    osc.initialise ([](float x) { return std::sin (x); }, 128);
+//    auto& osc = oscProcessChain.template get<oscIndex>();
+//    osc.initialise ([](float x) { return std::sin (x); }, 128);
 }
 
-void CustomOsc::setWavetype(const int wavetype)
+void CustomOsc::setWaveform(const int wavetype, const float gain)
 {
     auto& osc = oscProcessChain.template get<oscIndex>();
     switch (wavetype)
     {
         case 0: //Sine Wave
-            osc.initialise ([](float x) { return std::sin (x); }, 128);
+            osc.initialise ([gain](float x) { return gain * (std::sin(x)); }, 128);
             break;
         
         case 1: //Square Wave
-            osc.initialise([](float x) { return x < 0.0f ? -1.0f : 1.0f; });
+            osc.initialise([gain](float x) { return gain * (x < 0.0f ? -1.0f : 1.0f); });
             break;
             
         case 2: //Sawtooth Wave
-            osc.initialise([](float x) { return juce::jmap (x,
-                                                            float (-juce::MathConstants<double>::pi),
-                                                            float (juce::MathConstants<double>::pi),
-                                                            float (-1),
-                                                            float (1)); }, 2);
+            osc.initialise([gain](float x) { return gain * (juce::jmap (x,
+                                                                        float (-juce::MathConstants<double>::pi),
+                                                                        float (juce::MathConstants<double>::pi),
+                                                                        float (-1),
+                                                                        float (1))); }, 2);
             break;
             
         default:

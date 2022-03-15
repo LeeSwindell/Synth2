@@ -27,15 +27,15 @@ void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesiser
     
     auto& osc1 = voiceProcessChain.template get<osc1Index>();
     osc1.setFrequency(freq);
-    osc1.setLevel(velocity * gain1);
+    osc1.setLevel(velocity);
     
     auto& osc2 = voiceProcessChain.template get<osc2Index>();
     osc2.setFrequency(1.01f * freq);
-    osc2.setLevel(velocity * gain2);
+    osc2.setLevel(velocity);
     
     auto& osc3 = voiceProcessChain.template get<osc3Index>();
     osc3.setFrequency(freq);
-    osc3.setLevel(velocity * gain3);
+    osc3.setLevel(velocity);
     
     adsr.noteOn();
 }
@@ -99,18 +99,16 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 //        .add(tempBlock);
 }
 
-void SynthVoice::updateWavetypes(const int osc1Wavetype, const int osc2Wavetype, const int osc3Wavetype)
+void SynthVoice::updateWaveforms(const int osc1Wavetype, const int osc2Wavetype, const int osc3Wavetype,
+                                 const float osc1Gain, const float osc2Gain, const float osc3Gain)
 {
-    voiceProcessChain.template get<osc1Index>().setWavetype(osc1Wavetype);
-    voiceProcessChain.template get<osc2Index>().setWavetype(osc2Wavetype);
-    voiceProcessChain.template get<osc3Index>().setWavetype(osc3Wavetype);
+    voiceProcessChain.template get<osc1Index>().setWaveform(osc1Wavetype, osc1Gain);
+    voiceProcessChain.template get<osc2Index>().setWaveform(osc2Wavetype, osc2Gain);
+    voiceProcessChain.template get<osc3Index>().setWaveform(osc3Wavetype, osc3Gain);
 }
 
-void SynthVoice::updateGain(const float osc1Gain, const float osc2Gain, const float osc3Gain, const float masterGain)
+void SynthVoice::updateGain(const float masterGain)
 {
-    gain1 = osc1Gain;
-    gain2 = osc2Gain;
-    gain3 = osc3Gain;
     voiceProcessChain.template get<masterGainIndex>().setGainLinear(masterGain);
 }
 

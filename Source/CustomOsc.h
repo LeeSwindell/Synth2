@@ -16,7 +16,7 @@ class CustomOsc
 {
 public:
     CustomOsc();
-    void setWavetype(const int wavetype);
+    void setWaveform(const int wavetype, const float gain);
     void setFrequency(float newValue, bool force=false);
     void setLevel(float newValue);
     void prepare(const juce::dsp::ProcessSpec& spec);

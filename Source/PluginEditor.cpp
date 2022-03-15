@@ -59,12 +59,14 @@ Synth2AudioProcessorEditor::Synth2AudioProcessorEditor (Synth2AudioProcessor& p)
     createSliders(sustainSlider, sustainLabel, "Sus");
     createSliders(releaseSlider, releaseLabel, "Rel");
     
-    // Low-Pass Filter
+    // Ladder Filter
     cutoffFreqAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "CUTOFFFREQ", cutoffFreqSlider);
     cutoffResonanceAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "CUTOFFRES", cutoffResonanceSlider);
+    ladderDriveAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "LADDERDRIVE", ladderDriveSlider);
     
     createSliders(cutoffFreqSlider, cutoffFreqLabel, "Cutoff");
     createSliders(cutoffResonanceSlider, cutoffResonanceLabel, "Resonanace");
+    createSliders(ladderDriveSlider, ladderDriveLabel, "Drive");
         
     //For the midi keyboard debugging
     addAndMakeVisible (midiKeyboardComponent);
@@ -101,18 +103,19 @@ void Synth2AudioProcessorEditor::resized()
     osc2GainSlider.setBounds(200, 30, 60, 60);
     osc3GainSlider.setBounds(270, 30, 60, 60);
     masterGainSlider.setBounds(340, 30, 60, 60);
-    osc2PitchSlider.setBounds(130, 190, 60, 60);
-    osc3PitchSlider.setBounds(200, 190, 60, 60);
+    osc2PitchSlider.setBounds(410, 30, 60, 60);
+    osc3PitchSlider.setBounds(480, 30, 60, 60);
     
     // ADSR Sliders
-    attackSlider.setBounds(130, 110, 60, 60);
-    decaySlider.setBounds(200, 110, 60, 60);
-    sustainSlider.setBounds(270, 110, 60, 60);
-    releaseSlider.setBounds(340, 110, 60, 60);
+    attackSlider.setBounds(130, 110+20, 60, 60);
+    decaySlider.setBounds(200, 110+20, 60, 60);
+    sustainSlider.setBounds(270, 110+20, 60, 60);
+    releaseSlider.setBounds(340, 110+20, 60, 60);
     
-    // Lowpass Filter
-    cutoffFreqSlider.setBounds(410, 30, 60, 60);
-    cutoffResonanceSlider.setBounds(480, 30, 60, 60);
+    // Ladder Filter
+    cutoffFreqSlider.setBounds(130, 190+40, 60, 60);
+    cutoffResonanceSlider.setBounds(200, 190+40, 60, 60);
+    ladderDriveSlider.setBounds(270, 190+40, 60, 60);
 }
 
 void Synth2AudioProcessorEditor::createSliders(juce::Slider& slider, juce::Label& label, juce::String labelText)

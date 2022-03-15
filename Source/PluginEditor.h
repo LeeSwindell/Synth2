@@ -58,10 +58,10 @@ private:
     juce::Label attackLabel, decayLabel, sustainLabel, releaseLabel;
     std::unique_ptr<SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
     
-    // Cutoff Freq
-    juce::Slider cutoffFreqSlider, cutoffResonanceSlider;
-    juce::Label cutoffFreqLabel, cutoffResonanceLabel;
-    std::unique_ptr<SliderAttachment> cutoffFreqAttachment, cutoffResonanceAttachment;
+    // Ladder Filter
+    juce::Slider cutoffFreqSlider, cutoffResonanceSlider, ladderDriveSlider;
+    juce::Label cutoffFreqLabel, cutoffResonanceLabel, ladderDriveLabel;
+    std::unique_ptr<SliderAttachment> cutoffFreqAttachment, cutoffResonanceAttachment, ladderDriveAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Synth2AudioProcessorEditor)
 };
