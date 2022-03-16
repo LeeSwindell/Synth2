@@ -35,6 +35,19 @@ void CustomOsc::setWaveform(const int wavetype, const float gain)
                                                                         float (-1),
                                                                         float (1))); }, 2);
             break;
+
+        case 3: //Triangle Wave
+            osc.initialise([gain](float x) { return gain * (x < 0.0f ? 1.0f + x / juce::MathConstants<double>::halfPi :
+                                                                       1.0f - x / juce::MathConstants<double>::halfPi); });
+            break;
+        
+        case 4: //Wide Pulse
+            osc.initialise([gain](float x) { return gain * (x > -0.5f ? 1.0f : -1.0f); });
+            break;
+        
+        case 5: //Narrow Pulse
+            osc.initialise([gain](float x) { return gain * (x > 0.5f ? 1.0f : -1.0f); });
+            break;
             
         default:
             jassertfalse;

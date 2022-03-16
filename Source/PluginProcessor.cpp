@@ -219,10 +219,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout Synth2AudioProcessor::create
 {
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     
-    // Osc Wavetype Selectors
-    layout.add(std::make_unique<juce::AudioParameterChoice> ("OSC1", "Osc 1 Wavetype", juce::StringArray { "Sine", "Square", "Saw" }, 0));
-    layout.add(std::make_unique<juce::AudioParameterChoice> ("OSC2", "Osc 2 Wavetype", juce::StringArray { "Sine", "Square", "Saw" }, 0));
-    layout.add(std::make_unique<juce::AudioParameterChoice> ("OSC3", "Osc 3 Wavetype", juce::StringArray { "Sine", "Square", "Saw" }, 0));
+    // Osc Waveform Selectors
+    juce::StringArray waveformChoices { "Sine", "Square", "Saw", "Triangle", "Wide Pulse", "Narrow Pulse" };
+    layout.add(std::make_unique<juce::AudioParameterChoice> ("OSC1", "Osc 1 Waveform", waveformChoices, 0));
+    layout.add(std::make_unique<juce::AudioParameterChoice> ("OSC2", "Osc 2 Waveform", waveformChoices, 0));
+    layout.add(std::make_unique<juce::AudioParameterChoice> ("OSC3", "Osc 3 Waveform", waveformChoices, 0));
     
     // Osc Gain
     layout.add(std::make_unique<juce::AudioParameterFloat>("GAIN1", "Osc 1 Gain", juce::NormalisableRange<float> { 0.0f, 1.0f }, 1.0f));

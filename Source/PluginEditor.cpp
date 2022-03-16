@@ -139,6 +139,9 @@ void Synth2AudioProcessorEditor::createComboBox(juce::ComboBox& comboBox, juce::
     comboBox.addItem("Sine", 1);
     comboBox.addItem("Square", 2);
     comboBox.addItem("Saw", 3);
+    comboBox.addItem("Triangle", 4);
+    comboBox.addItem("Wide Pulse", 5);
+    comboBox.addItem("Narrow Pulse", 6);
     comboBox.setSelectedItemIndex(0);
     addAndMakeVisible(comboBox);
 }
