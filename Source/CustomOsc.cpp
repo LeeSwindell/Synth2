@@ -12,8 +12,7 @@
 
 CustomOsc::CustomOsc()
 {
-//    auto& osc = oscProcessChain.template get<oscIndex>();
-//    osc.initialise ([](float x) { return std::sin (x); }, 128);
+
 }
 
 void CustomOsc::setWaveform(const int wavetype, const float gain)

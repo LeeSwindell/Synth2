@@ -237,7 +237,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout Synth2AudioProcessor::create
                                                            juce::NormalisableRange<float> { .75f, 1.5f }, 1.0f));
 
     // ADSR Params
-    layout.add(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.1f, 1.0f }, 0.1f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.05f, 1.0f }, 0.1f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange<float> { 0.1f, 1.0f }, 0.1f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float> { 0.1f, 1.0f }, 1.0f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float> { 0.1f, 3.0f }, 0.4f));
@@ -248,7 +248,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout Synth2AudioProcessor::create
     layout.add(std::make_unique<juce::AudioParameterFloat>("CUTOFFRES", "Cutoff Resonance",
                                                            juce::NormalisableRange<float> { 0.0f, 1.0f }, 0.5f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("LADDERDRIVE", "Ladder Drive",
-                                                           juce::NormalisableRange<float> { 1.0f, 10.0f }, 1.0f));
+                                                           juce::NormalisableRange<float> { 1.0f, 20.0f }, 1.0f));
     
     return layout;
 }

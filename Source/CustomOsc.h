@@ -33,7 +33,7 @@ private:
         gainIndex
     };
     
-    float pitchAdjust { 1.0f };
+    float pitchAdjust;
     
     juce::dsp::ProcessorChain<juce::dsp::Oscillator<float>, juce::dsp::Gain<float>> oscProcessChain;
 };
