@@ -219,6 +219,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout Synth2AudioProcessor::create
 {
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     
+    // This is how most audio parameters are added to the layout. Theres an argument for skewing them so the plugin editor doesn't scale
+    // linearly as the slider/knobs are adjusted, but at the moment that option is unused.
+    // layout.add(std::make_unique<Parameter Type>("Reference Name", "Descriptor", Range/Choices{start, end}, Default value));
+    
     // Osc Waveform Selectors
     juce::StringArray waveformChoices { "Sine", "Square", "Saw", "Triangle", "Wide Pulse", "Narrow Pulse" };
     layout.add(std::make_unique<juce::AudioParameterChoice> ("OSC1", "Osc 1 Waveform", waveformChoices, 0));
