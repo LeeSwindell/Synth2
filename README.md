@@ -1,4 +1,4 @@
-# Lee's JUCE Synthesizer
+# JUCE Synthesizer
 ---
 This synthesizer was my way of learning C++. It uses the JUCE framework to handle midi data and providing an easy way to connect the synth with a DAW (digital audio workstation - Logic Pro/Ableton etc). To start with, I had never seen or used either of these tools, having programmed with only Python, Java, Javascript, and Julia.  
 
